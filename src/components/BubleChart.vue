@@ -3,14 +3,13 @@ import Chart from "chart.js/auto";
 import { onMounted, ref, toRefs, watch } from "vue";
 import { useMqttData, updateChart } from "../composables/useMqttData";
 
-const { data } = toRefs(useMqttData);
+const { waterLevel } = toRefs(useMqttData);
 
 const abi = ref<HTMLCanvasElement>();
 
 let chart: Chart;
 
-watch(data, (receivedData) => {
-  console.log(receivedData);
+watch(waterLevel, (receivedData) => {
   if (chart) {
     updateChart(chart, receivedData);
   }

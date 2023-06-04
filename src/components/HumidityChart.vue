@@ -4,13 +4,13 @@ import { onMounted, ref, watch, toRefs } from "vue";
 
 import { useMqttData, updateChart } from "../composables/useMqttData";
 
-const { data } = toRefs(useMqttData);
+const { waterHumidity } = toRefs(useMqttData);
 
 const hum = ref<HTMLCanvasElement>();
 
 let chart: Chart;
 
-watch(data, (receivedData) => {
+watch(waterHumidity, (receivedData) => {
   console.log(receivedData);
   if (chart) {
     updateChart(chart, receivedData);

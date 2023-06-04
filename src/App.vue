@@ -6,14 +6,24 @@ import HumidityChart from "./components/HumidityChart.vue";
 import PhChart from "./components/PhChart.vue";
 import webSocket from "./services/webSocket";
 import { useMqttData } from "./composables/useMqttData";
+import { toRefs } from "vue";
 
 const onConnect = () => {
   console.log("connected");
 };
 
 const onMessage = (event: MessageEvent) => {
-  const data = JSON.parse(event.data);
-  useMqttData.data = data;
+  const { waterLevel, waterTemp, waterHumidity, waterPH, waterTDS } =
+    toRefs(useMqttData);
+  const receivedData = JSON.parse(event.data);
+  console.log(receivedData);
+  [
+    waterLevel.value,
+    waterTemp.value,
+    waterHumidity.value,
+    waterPH.value,
+    waterTDS.value,
+  ] = receivedData.data.match(/\d+/g);
 };
 
 webSocket.onmessage = onMessage;

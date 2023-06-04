@@ -11,5 +11,9 @@ export const updateChart = (chart: Chart, data: number) => {
 };
 
 export const useMqttData = reactive({
-  data: ref(10),
+  waterLevel: ref(0),
+  waterTemp: ref(0),
+  waterHumidity: ref(0),
+  waterPH: ref(0),
+  waterTDS: ref(0),
 });
