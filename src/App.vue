@@ -23,7 +23,7 @@ const onMessage = (event: MessageEvent) => {
     waterHumidity.value,
     waterPH.value,
     waterTDS.value,
-  ] = receivedData.data.match(/\d+/g);
+  ] = receivedData.match(/\d+/g);
 };
 
 webSocket.onmessage = onMessage;
