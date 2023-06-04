@@ -16,6 +16,7 @@ socket.onopen = () => {
 let chart: Chart;
 
 socket.onmessage = (event: MessageEvent) => {
+  console.log(event);
   const data = JSON.parse(event.data);
 
   if (chart) {
