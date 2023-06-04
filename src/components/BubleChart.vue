@@ -1,35 +1,20 @@
 <script setup lang="ts">
 import Chart from "chart.js/auto";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, toRefs, watch } from "vue";
+import { useMqttData, updateChart } from "../composables/useMqttData";
+
+const { data } = toRefs(useMqttData);
 
 const abi = ref<HTMLCanvasElement>();
 
-const HOST = "localhost";
-const PORT = 5678;
-
-const socket: WebSocket = new WebSocket(`ws://${HOST}:${PORT}`);
-
-socket.onopen = () => {
-  console.log("connected");
-};
-
 let chart: Chart;
-let lastLabel = 5;
 
-socket.onmessage = (event: MessageEvent) => {
-  console.log(event);
-  const data = JSON.parse(event.data);
-
+watch(data, (receivedData) => {
+  console.log(receivedData);
   if (chart) {
-    const label = lastLabel++;
-    // chart.data?.labels?.push(label); add and remove data
-    chart.data?.labels?.shift();
-    chart.data?.labels?.push(label);
-    chart.data.datasets[0].data.shift();
-    chart.data.datasets[0].data.push(data);
-    chart.update();
+    updateChart(chart, receivedData);
   }
-};
+});
 
 onMounted(() => {
   const ctx = abi.value?.getContext("2d");

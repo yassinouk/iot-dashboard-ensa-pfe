@@ -4,15 +4,20 @@ import Line from "./components/Line.vue";
 import BubleChart from "./components/BubleChart.vue";
 import HumidityChart from "./components/HumidityChart.vue";
 import PhChart from "./components/PhChart.vue";
-// import webSocket from "./services/webSocket";
-// import { useMqttData } from "./composables/useMqttData";
+import webSocket from "./services/webSocket";
+import { useMqttData } from "./composables/useMqttData";
 
-// const onMessage = (event: MessageEvent) => {
-//   const data = JSON.parse(event.data);
-//   useMqttData.data = data;
-// };
+const onConnect = () => {
+  console.log("connected");
+};
 
-// webSocket.onmessage = onMessage;
+const onMessage = (event: MessageEvent) => {
+  const data = JSON.parse(event.data);
+  useMqttData.data = data;
+};
+
+webSocket.onmessage = onMessage;
+webSocket.onopen = onConnect;
 </script>
 
 <template>
