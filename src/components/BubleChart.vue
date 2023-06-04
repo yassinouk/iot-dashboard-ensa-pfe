@@ -13,24 +13,24 @@ socket.onopen = () => {
   console.log("connected");
 };
 
+let chart: Chart;
+
 socket.onmessage = (event: MessageEvent) => {
   const data = JSON.parse(event.data);
 
-  if (chart.value) {
+  if (chart) {
     const label = "test";
 
-    chart.value.data?.labels?.push(label);
-    chart.value.data.datasets[0].data.push(data);
-    chart.value.update();
+    chart.data?.labels?.push(label);
+    chart.data.datasets[0].data.push(data);
+    chart.update();
   }
 };
-
-const chart = ref();
 
 onMounted(() => {
   const ctx = abi.value?.getContext("2d");
   if (ctx) {
-    chart.value = new Chart(ctx, {
+    chart = new Chart(ctx, {
       type: "line",
       data: {
         labels: [
