@@ -21,19 +21,17 @@ socket.onmessage = (event: MessageEvent) => {
   if (chart.value) {
     const label = `10:0${lastLabel++}`;
 
-    addData(chart.value, label, data);
+    chart.value.data?.labels?.push(label);
+    chart.value.data.datasets[0].data.push(data);
+    try {
+      chart.value.update();
+    } catch (err) {
+      console.log(err);
+    }
   }
 };
 
 const chart = ref();
-
-const addData = (chart: Chart, label: string, data: number) => {
-  chart.data?.labels?.push(label);
-  chart.data.datasets.forEach((dataset) => {
-    dataset.data.push(data);
-  });
-  chart.update();
-};
 
 const labels = [
   "10:00",
