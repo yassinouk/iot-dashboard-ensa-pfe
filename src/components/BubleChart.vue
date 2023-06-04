@@ -13,21 +13,15 @@ socket.onopen = () => {
   console.log("connected");
 };
 
-let lastLabel = 5;
-
 socket.onmessage = (event: MessageEvent) => {
   const data = JSON.parse(event.data);
 
   if (chart.value) {
-    const label = `10:0${lastLabel++}`;
+    const label = "test";
 
     chart.value.data?.labels?.push(label);
     chart.value.data.datasets[0].data.push(data);
-    try {
-      chart.value.update();
-    } catch (err) {
-      console.log(err);
-    }
+    chart.value.update();
   }
 };
 
