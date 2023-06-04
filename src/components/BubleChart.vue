@@ -14,15 +14,18 @@ socket.onopen = () => {
 };
 
 let chart: Chart;
+let lastLabel = 5;
 
 socket.onmessage = (event: MessageEvent) => {
   console.log(event);
   const data = JSON.parse(event.data);
 
   if (chart) {
-    const label = "test";
-
+    const label = lastLabel++;
+    // chart.data?.labels?.push(label); add and remove data
+    chart.data?.labels?.shift();
     chart.data?.labels?.push(label);
+    chart.data.datasets[0].data.shift();
     chart.data.datasets[0].data.push(data);
     chart.update();
   }
