@@ -15,7 +15,7 @@ const onConnect = () => {
 const onMessage = (event: MessageEvent) => {
   const { waterLevel, waterTemp, waterHumidity, waterPH, waterTDS } =
     toRefs(useMqttData);
-  const receivedData = JSON.parse(event.data);
+  const receivedData = event.data;
   console.log(receivedData);
   [
     waterLevel.value,

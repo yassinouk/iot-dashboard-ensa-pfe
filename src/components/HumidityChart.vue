@@ -11,7 +11,6 @@ const hum = ref<HTMLCanvasElement>();
 let chart: Chart;
 
 watch(waterHumidity, (receivedData) => {
-  console.log(receivedData);
   if (chart) {
     updateChart(chart, receivedData);
   }
