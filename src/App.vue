@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import GaugeChart from './components/GaugeChart.vue'
-import Line from './components/Line.vue'
-import BubleChart from './components/BubleChart.vue'
-import HumidityChart from './components/HumidityChart.vue'
-import PhChart from './components/PhChart.vue'
+import GaugeChart from "./components/GaugeChart.vue";
+import Line from "./components/Line.vue";
+import BubleChart from "./components/BubleChart.vue";
+import HumidityChart from "./components/HumidityChart.vue";
+import PhChart from "./components/PhChart.vue";
+import webSocket from "./services/webSocket";
+import { useMqttData } from "./composables/useMqttData";
 
+const onMessage = (event: MessageEvent) => {
+  const data = JSON.parse(event.data);
+  useMqttData.value = data;
+};
 
+webSocket.onmessage = onMessage;
 </script>
 
 <template>
@@ -16,7 +23,7 @@ import PhChart from './components/PhChart.vue'
       </a>
       <div>
         <h1>Ensa Tetouan</h1>
-        <h2>This Dashboard is </h2>
+        <h2>This Dashboard is</h2>
         <h2>a prototype for my Thesis</h2>
         <h2>Yassin OUAKKA</h2>
       </div>
@@ -50,8 +57,6 @@ import PhChart from './components/PhChart.vue'
 
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
-
-
   }
 
   .widget {
@@ -66,7 +71,6 @@ import PhChart from './components/PhChart.vue'
       transform: scale(1.05);
       box-shadow: 0 0 20px #ccc;
     }
-
   }
 
   .side-left {
@@ -86,9 +90,7 @@ import PhChart from './components/PhChart.vue'
     grid-gap: 1rem;
     height: 100%;
     overflow-y: auto;
-
   }
-
 }
 
 .logo {
