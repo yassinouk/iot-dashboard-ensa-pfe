@@ -1,13 +1,35 @@
 <script setup lang="ts">
 import Chart from "chart.js/auto";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useMqttData } from "../composables/useMqttData";
 
-const yassin = ref<HTMLCanvasElement>();
+const yassin = ref<HTMLCanvasElement | null>(null);
+
+const chart = ref();
+
+const addData = (chart: Chart, label: string, data: number) => {
+  chart.data?.labels?.push(label);
+  chart.data.datasets.forEach((dataset) => {
+    dataset.data.push(data);
+  });
+  chart.update();
+};
+
+watch(useMqttData, (receivedData) => {
+  if (chart.value) {
+    addData(chart.value, "zabi", receivedData);
+  }
+});
+
+// const removeData = (chart) => {
+//   chart.data.labels.pop();
+//   chart.data.datasets.forEach((dataset) => {
+//     dataset.data.pop();
+//   });
+//   chart.update();
+// };
 
 const labels = ["Wasted Water", "Water Level"];
-
-console.log(useMqttData.value);
 
 const data = {
   labels,
@@ -24,7 +46,7 @@ const data = {
 onMounted(() => {
   const ctx = yassin.value?.getContext("2d");
   if (ctx) {
-    new Chart(ctx, {
+    chart.value = new Chart(ctx, {
       type: "doughnut",
       data,
     });
