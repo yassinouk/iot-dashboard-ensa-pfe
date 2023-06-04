@@ -13,14 +13,13 @@ socket.onopen = () => {
   console.log("connected");
 };
 
+let lastLabel = 5;
+
 socket.onmessage = (event: MessageEvent) => {
   const data = JSON.parse(event.data);
 
   if (chart.value) {
-    const lastLabel = labels[labels.length - 1];
-    const label = lastLabel.replace(/\d+/, (match) => {
-      return `${parseInt(match) + 1}`;
-    });
+    const label = `10:0${lastLabel++}`;
 
     addData(chart.value, label, data);
   }
