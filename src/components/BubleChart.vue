@@ -1,9 +1,28 @@
 <script setup lang="ts">
 import Chart from "chart.js/auto";
-import { onMounted, ref, watch, toRefs } from "vue";
-import { useMqttData } from "../composables/useMqttData";
+import { onMounted, ref } from "vue";
 
 const abi = ref<HTMLCanvasElement>();
+
+const HOST = "localhost";
+const PORT = 5678;
+
+const socket: WebSocket = new WebSocket(`ws://${HOST}:${PORT}`);
+
+socket.onopen = () => {
+  console.log("connected");
+};
+
+socket.onmessage = (event: MessageEvent) => {
+  const data = JSON.parse(event.data);
+
+  if (chart.value) {
+    const lastLabel = labels[labels.length - 1];
+    const label = `${lastLabel.slice(0, 2)}:${lastLabel.slice(3, 5) + 1}`;
+
+    addData(chart.value, label, data);
+  }
+};
 
 const chart = ref();
 
@@ -14,15 +33,6 @@ const addData = (chart: Chart, label: string, data: number) => {
   });
   chart.update();
 };
-
-const { data } = toRefs(useMqttData);
-
-watch(data, (receivedData) => {
-  console.log(receivedData);
-  if (chart.value) {
-    addData(chart.value, "°C", receivedData);
-  }
-});
 
 const labels = [
   "10:00",
