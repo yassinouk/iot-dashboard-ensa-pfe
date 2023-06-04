@@ -14,11 +14,14 @@ socket.onopen = () => {
 };
 
 socket.onmessage = (event: MessageEvent) => {
-  const data = JSON.parse(event.data);
+  const data = parseInt(event.data);
+  console.log(data);
 
   if (chart.value) {
     const lastLabel = labels[labels.length - 1];
-    const label = `${lastLabel.slice(0, 2)}:${lastLabel.slice(3, 5) + 1}`;
+    const label = lastLabel.replace(/\d+/, (match) => {
+      return `${parseInt(match) + 1}`;
+    });
 
     addData(chart.value, label, data);
   }
