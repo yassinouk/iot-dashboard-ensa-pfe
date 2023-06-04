@@ -9,7 +9,7 @@ import { useMqttData } from "./composables/useMqttData";
 
 const onMessage = (event: MessageEvent) => {
   const data = JSON.parse(event.data);
-  useMqttData.value = data;
+  useMqttData.data = data;
 };
 
 webSocket.onmessage = onMessage;

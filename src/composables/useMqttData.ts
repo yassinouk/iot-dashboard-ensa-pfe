@@ -1,3 +1,5 @@
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 
-export const useMqttData = ref(0);
+export const useMqttData = reactive({
+  data: ref(0),
+});

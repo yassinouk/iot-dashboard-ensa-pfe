@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Chart from "chart.js/auto";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, toRefs, watch } from "vue";
 import { useMqttData } from "../composables/useMqttData";
 
 const yassin = ref<HTMLCanvasElement | null>(null);
@@ -15,7 +15,9 @@ const addData = (chart: Chart, label: string, data: number) => {
   chart.update();
 };
 
-watch(useMqttData, (receivedData) => {
+const { data } = toRefs(useMqttData);
+
+watch(data, (receivedData) => {
   if (chart.value) {
     addData(chart.value, "zabi", receivedData);
   }
@@ -31,7 +33,7 @@ watch(useMqttData, (receivedData) => {
 
 const labels = ["Wasted Water", "Water Level"];
 
-const data = {
+const chartData = {
   labels,
   datasets: [
     {
@@ -48,7 +50,7 @@ onMounted(() => {
   if (ctx) {
     chart.value = new Chart(ctx, {
       type: "doughnut",
-      data,
+      data: chartData,
     });
     // Update the chart data with receivedData variable
   }
