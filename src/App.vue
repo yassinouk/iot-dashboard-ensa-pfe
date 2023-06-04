@@ -4,23 +4,8 @@ import Line from './components/Line.vue'
 import BubleChart from './components/BubleChart.vue'
 import HumidityChart from './components/HumidityChart.vue'
 import PhChart from './components/PhChart.vue'
-// websocket dzab
-const socket = new WebSocket('ws://localhost:5678');
-socket.addEventListener('message', (event) => {
-  console.log(event.data);
-  // const sensordata = JSON.parse(event.data);
-  // console.log(sensordata);
-  // if (sensordata.sensor === 'temperature') {
-  //   const gauge = document.getElementById('gauge');
-  //   HumidityChart.setAttribute('value', sensordata.value);
-  // }
-  // if (sensordata.sensor === 'humidity') {
-  //   console.log('humidity');
-  //   const gauge = document.getElementById('humidity');
-  //   gauge.setAttribute('value', sensordata.value);
-  // }
 
-});
+
 </script>
 
 <template>

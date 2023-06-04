@@ -2,12 +2,18 @@
 import Chart from 'chart.js/auto';
 import { onMounted, ref } from 'vue';
 
-// const props = defineProps({
-//     data: {
-//         type: String,
-//         required: true
-//     }
-// });
+// import ws from '../WebSocketService.ts'
+import socket from '../WebSocketService.ts'
+
+socket
+// let receivedData: any[] = []; // Initialize the variable as an empty array
+// socket.onmessage = (event) => {
+//     receivedData = [event.data]; // Store the parsed data as a single-element array
+//     console.log(receivedData);
+// };
+// .onmessage = (event) => {
+//     const newData = event.data;
+// }
 
 const yassin = ref<HTMLCanvasElement>();
 
@@ -25,7 +31,7 @@ const data = {
             'rgb(54, 162, 235)',
         ],
         hoverOffset: 4,
-        data: [5, 95],
+        data: [10],
     }]
 };
 
@@ -39,6 +45,7 @@ onMounted(() => {
             type: 'doughnut',
             data,
         });
+        // Update the chart data with receivedData variable
     }
 });
 
