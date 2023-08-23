@@ -1,1 +1,5 @@
 node_modules
+.vscode
+Dockerfile
+README.md
+.dockerignore
